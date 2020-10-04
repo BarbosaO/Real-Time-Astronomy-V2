@@ -1,6 +1,5 @@
 .PlanetCard{
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-block;
     width: 500px;
     height: 300px;
     margin: 30px;
@@ -26,7 +25,7 @@
 
 .PlanetCard .HeaderLine{
     width: 500px;
-    height: 45px;
+    height: 10px;
     border-bottom: 2px solid black;
     position: absolute;
 }
