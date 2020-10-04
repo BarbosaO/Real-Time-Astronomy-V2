@@ -1,0 +1,18 @@
+.HomeContainer
+{
+    
+}
+
+.HomeContainer .LandingPageInfo{
+
+}
+
+.LandingPageInfo .Title{
+    text-align: center;
+    font-size: 50px;
+}
+
+.LandingPageInfo .AboutText{
+    text-align: center;
+    font-size: 20px;
+}
