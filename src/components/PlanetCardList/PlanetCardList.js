@@ -5,14 +5,14 @@ import PlanetCard from '../PlanetCard/PlanetCard';
 const PlanetCardList = (props) => {
     return(
         <div className={classes.PlanetCardList}>
-            <PlanetCard text={props}/>
-            <PlanetCard text={props}/>
-            <PlanetCard text={props}/>
-            <PlanetCard text={props}/>
-            <PlanetCard text={props}/>
-            <PlanetCard text={props}/>
-            <PlanetCard text={props}/>
-            <PlanetCard text={props}/>
+            <PlanetCard data={props}/>
+            <PlanetCard data={props}/>
+            <PlanetCard data={props}/>
+            <PlanetCard data={props}/>
+            <PlanetCard data={props}/>
+            <PlanetCard data={props}/>
+            <PlanetCard data={props}/>
+            <PlanetCard data={props}/>
         </div>
     );
 }

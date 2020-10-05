@@ -6,7 +6,7 @@ const PlanetCard = (props) => (
     <div className={classes.PlanetCard}>
         <div className={classes.Header}>Name</div>
         <div className={classes.HeaderLine}></div>
-        <PlanetCardInfoList text={props}/>
+        <PlanetCardInfoList data={props}/>
     </div>
    
 );

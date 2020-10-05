@@ -8,7 +8,8 @@ const aboutText = "An astronomy engine to calculate heliocentric and geocentric 
 class Home extends Component{
 
     state = {
-        textArray : ["Distance in", "MI", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"]
+        textArray : ["Distance in", "MI", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"],
+        seconds : 0
     }
 
     switchToKmHandler = () =>{
@@ -28,6 +29,21 @@ class Home extends Component{
             textArray : ["Distance in", "AU", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"]
         })
     }
+
+    tick() {
+        this.setState(state => ({
+            seconds: state.seconds + 1
+        }));
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => this.tick(), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
 
     render(){
         return(
@@ -51,7 +67,7 @@ class Home extends Component{
                 </section>
         
                 <section>
-                    <PlanetCardList text={this.state.textArray}/>
+                    <PlanetCardList text={this.state.textArray} unitsData={this.state.seconds}/>
                 </section>
         
             </div>
