@@ -44,7 +44,6 @@ class Home extends Component{
         clearInterval(this.interval);
     }
 
-
     render(){
         return(
             <div className={classes.HomeContainer}>
