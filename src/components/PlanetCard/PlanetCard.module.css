@@ -1,0 +1,31 @@
+.PlanetCard{
+    display: inline-block;
+    width: 500px;
+    height: 300px;
+    margin: 30px;
+    padding: 5px;
+    box-shadow: black;
+    background-color: cadetblue;
+    font-size: 20px;
+    transition: all .5s ease-in-out;
+    border-radius: 20px;
+}
+
+.PlanetCard:hover{
+    transform: scale(1.1);
+}
+
+.PlanetCard .Header{
+    position: relative;
+    margin-left: 10px;
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.PlanetCard .HeaderLine{
+    width: 500px;
+    height: 10px;
+    border-bottom: 2px solid black;
+    position: absolute;
+}
