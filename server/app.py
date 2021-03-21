@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from realtimeastronomy.tester import calc
+from calculations.tester import calc
 from flask_cors import CORS, cross_origin
 from datetime import datetime
 from time import gmtime
@@ -9,7 +9,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config["DEBUG"] = True
 
-@app.route('/api/calculations/all', methods=[GET])
+@app.route('/api/calculations/all', methods=['GET'])
 def retrieve_all():
     return calc()
 
