@@ -54,13 +54,13 @@ def jsonifyResponse(mercury, venus, mars, jupiter, saturn, uranus, neptune):
 
 def jsonResponse(mercury, venus, mars, jupiter, saturn, uranus, neptune):
     response = {
-        '1' : mercury,
-        '2' : venus,
-        '3' : mars,
-        '4' : jupiter,
-        '5' : saturn,
-        '6' : uranus,
-        '7' : neptune 
+        'mercury' : mercury,
+        'venus' : venus,
+        'mars' : mars,
+        'jupiter' : jupiter,
+        'saturn' : saturn,
+        'uranus' : uranus,
+        'neptune' : neptune 
     }
 
     return json.dumps(response, default=serialize)
@@ -231,31 +231,31 @@ def calc():
     neptune_geocentric = calculateGeocentric(sun_values[0], sun_values[1], neptune_values[0], neptune_values[1], neptune_values[2])
 
     # mercury
-    mercury_data = PlanetResponse('mercury', round(mercury_values[3]), round(mercury_values[0], 6), round(mercury_values[1], 6), round(mercury_values[2], 6),
+    mercury_data = PlanetResponse('Mercury', round(mercury_values[3]), round(mercury_values[0], 6), round(mercury_values[1], 6), round(mercury_values[2], 6),
                                 mercury_geocentric[0], mercury_geocentric[1], mercury_geocentric[2], mercury_geocentric[3])
 
     # venus 
-    venus_data = PlanetResponse('mercury', round(venus_values[3]), round(venus_values[0], 6), round(venus_values[1], 6), round(venus_values[2], 6),
+    venus_data = PlanetResponse('Venus', round(venus_values[3]), round(venus_values[0], 6), round(venus_values[1], 6), round(venus_values[2], 6),
                                 venus_geocentric[0], venus_geocentric[1], venus_geocentric[2], venus_geocentric[3])
 
     # mars
-    mars_data = PlanetResponse('mars', round(mars_values[3]), round(mars_values[0], 6), round(mars_values[1], 6), round(mars_values[2], 6),
+    mars_data = PlanetResponse('Mars', round(mars_values[3]), round(mars_values[0], 6), round(mars_values[1], 6), round(mars_values[2], 6),
                                 mars_geocentric[0], mars_geocentric[1], mars_geocentric[2], mars_geocentric[3])
     
     # jupiter
-    jupiter_data = PlanetResponse('jupiter', round(correctedJupiter[0]), round(jupiter_values[0], 6), round(jupiter_values[1], 6), round(jupiter_values[2], 6),
+    jupiter_data = PlanetResponse('Jupiter', round(correctedJupiter[0]), round(jupiter_values[0], 6), round(jupiter_values[1], 6), round(jupiter_values[2], 6),
                                 jupiter_geocentric[0], jupiter_geocentric[1], jupiter_geocentric[2], jupiter_geocentric[3])
 
     # saturn
-    saturn_data = PlanetResponse('saturn', round(correctedSaturn[0]), round(saturn_values[0], 6), round(saturn_values[1], 6), round(saturn_values[2], 6),
+    saturn_data = PlanetResponse('Saturn', round(correctedSaturn[0]), round(saturn_values[0], 6), round(saturn_values[1], 6), round(saturn_values[2], 6),
                                 saturn_geocentric[0], saturn_geocentric[1], saturn_geocentric[2], saturn_geocentric[3])
 
     # unranus
-    uranus_data = PlanetResponse('uranus', round(correctedUranus[0]), round(uranus_values[0], 6), round(uranus_values[1], 6), round(uranus_values[2], 6),
+    uranus_data = PlanetResponse('Uranus', round(correctedUranus[0]), round(uranus_values[0], 6), round(uranus_values[1], 6), round(uranus_values[2], 6),
                                 uranus_geocentric[0], uranus_geocentric[1], uranus_geocentric[2], uranus_geocentric[3])
 
     # neptune
-    neptune_data = PlanetResponse('neptune', round(neptune_values[3]), round(neptune_values[0], 6), round(neptune_values[1], 6), round(neptune_values[2], 6),
+    neptune_data = PlanetResponse('Neptune', round(neptune_values[3]), round(neptune_values[0], 6), round(neptune_values[1], 6), round(neptune_values[2], 6),
                                 neptune_geocentric[0], neptune_geocentric[1], neptune_geocentric[2], neptune_geocentric[3])
                                 
     return jsonResponse(mercury_data, venus_data, mars_data, jupiter_data, saturn_data, uranus_data, neptune_data)

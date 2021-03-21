@@ -31,15 +31,19 @@ class Home extends Component{
         })
     }
 
-    retrieveMercuryCalculations(){
+    retrieveCalculations(){
 
-      CalculationsService.retrieveMercuryCalculations()
+      CalculationsService.retrieveAllCalculations()
       .then(response => this.handleSuccessfulResponse(response))
       .catch(error => this.handleError(error))
     }
 
     handleSuccessfulResponse(response){
-        console.log("Response: " + response.data[0][0]);
+        
+        console.log(response.data.mercury.heliocentric_distance)
+        this.setState({
+            seconds : response.data.mercury.heliocentric_distance
+        })
     }
 
     handleError(error){
@@ -54,20 +58,20 @@ class Home extends Component{
         if(error.message && error.response.data){
             errorMessage += error.response.data.message;
         }
-
-        this.setState({seconds : errorMessage});
     }
 
-    tick() {
+    /* tick() {
 
-        this.retrieveMercuryCalculations();
         this.setState(state => ({
             seconds: state.seconds + 1
         }));
-    }
+    } */
 
     componentDidMount() {
-        this.interval = setInterval(() => this.tick(), 1000);
+        CalculationsService.retrieveAllCalculations()
+        .then(response => {this.setState({seconds : response.data.mercury.heliocentric_distance})})
+
+        this.interval = setInterval(() => this.retrieveCalculations(), 1000);
     }
 
     componentWillUnmount() {

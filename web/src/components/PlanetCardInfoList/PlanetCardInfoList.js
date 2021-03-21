@@ -3,7 +3,6 @@ import classes from './PlanetCardInfoList.module.css';
 import PlanetCardInfo from '../PlanetCardInfo/PlanetCardInfo';
 
 const PlanetCardInfoList = (props) => (
-    console.log(props),
     <div className={classes.PlanetCardInfoList}>
         <PlanetCardInfo data={props.data.data.text[0] + " " + props.data.data.text[1]} unitsData={props.data.data.unitsData}/>
         <PlanetCardInfo data={props.data.data.text[2]}/>
