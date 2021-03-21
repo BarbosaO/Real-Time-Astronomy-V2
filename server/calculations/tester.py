@@ -1,5 +1,5 @@
-from realtimeastronomy.calculator import calculateData, calculateJupiterPert, calculateSaturnPert, calculateUranusPert, calculateSunData, calculateGeocentric
-from realtimeastronomy import planets
+from calculations.calculator import calculateData, calculateJupiterPert, calculateSaturnPert, calculateUranusPert, calculateSunData, calculateGeocentric
+from calculations import planets
 from flask import jsonify
 import datetime, time
 import threading
