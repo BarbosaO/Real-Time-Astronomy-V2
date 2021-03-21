@@ -10,7 +10,7 @@ class Home extends Component{
 
     state = {
         textArray : ["Distance in", "MI", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"],
-        seconds : 0
+        planetData : ''
     }
 
     switchToKmHandler = () =>{
@@ -39,10 +39,8 @@ class Home extends Component{
     }
 
     handleSuccessfulResponse(response){
-        
-        console.log(response.data.mercury.heliocentric_distance)
         this.setState({
-            seconds : response.data.mercury.heliocentric_distance
+            planetData : response.data
         })
     }
 
@@ -68,9 +66,7 @@ class Home extends Component{
     } */
 
     componentDidMount() {
-        CalculationsService.retrieveAllCalculations()
-        .then(response => {this.setState({seconds : response.data.mercury.heliocentric_distance})})
-
+        this.retrieveCalculations();
         this.interval = setInterval(() => this.retrieveCalculations(), 1000);
     }
 
@@ -100,7 +96,7 @@ class Home extends Component{
                 </section>
         
                 <section>
-                    <PlanetCardList text={this.state.textArray} unitsData={this.state.seconds}/>
+                    <PlanetCardList text={this.state.textArray} planetData={this.state.planetData}/>
                 </section>
         
             </div>
