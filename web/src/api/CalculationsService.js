@@ -6,8 +6,16 @@ class CalculationsService {
         return axios.get('http://127.0.0.1:5000/api/calculations/all');
     }
 
-    retrieveMercuryCalculations(){
-        return axios.get('http://127.0.0.1:5000/api/calculations/mercury');
+    retrieveMiDistances(){
+        return axios.get('http://127.0.0.1:5000/api/calculations/distances/mi');
+    }
+
+    retrieveKmDistances(){
+        return axios.get('http://127.0.0.1:5000/api/calculations/distances/km');
+    }
+    
+    retrieveAuDistances(){
+        return axios.get('http://127.0.0.1:5000/api/calculations/distances/au');
     }
 
 }

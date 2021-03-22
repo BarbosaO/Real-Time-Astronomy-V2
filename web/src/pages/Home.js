@@ -2,6 +2,7 @@ import React , {Component} from 'react';
 import PlanetCardList from '../components/PlanetCardList/PlanetCardList';
 import classes from './Home.module.css';
 import CalculationsService from '../api/CalculationsService.js';
+import axios from 'axios';
 
 const title = "Real Time Astronomy";
 const aboutText = "An astronomy engine to calculate heliocentric and geocentric distances, and additional orbital data of planets from the solar system in real time. This is an upgraded version."
@@ -10,37 +11,58 @@ class Home extends Component{
 
     state = {
         textArray : ["Distance in", "MI", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"],
-        planetData : ''
+        planetData : '',
+        distanceData : '',
     }
 
     switchToKmHandler = () =>{
-        this.setState({
-            textArray : ["Distance in", "KM", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"]
-        })
+        this.retrieveDistances(CalculationsService.retrieveKmDistances, "KM");
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.retrieveDistances(CalculationsService.retrieveKmDistances, "KM"), 1000);
     }
 
     switchToMIHandler = () =>{
-        this.setState({
-            textArray : ["Distance in", "MI", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"]
-        })
+        this.retrieveDistances(CalculationsService.retrieveMiDistances, "MI");
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.retrieveDistances(CalculationsService.retrieveMiDistances, "MI"), 1000);
     }
 
     switchToAUHandler = () =>{
-        this.setState({
-            textArray : ["Distance in", "AU", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"]
+        this.retrieveDistances(CalculationsService.retrieveAuDistances, "AU");
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.retrieveDistances(CalculationsService.retrieveAuDistances, "AU"), 1000);
+    }
+
+    retrieveInitialCalculations(){
+
+      const all_calculations_request = CalculationsService.retrieveAllCalculations();
+      const initial_distances_request = CalculationsService.retrieveMiDistances();
+
+      axios.all([all_calculations_request, initial_distances_request])
+      .then(axios.spread((...responses) => {
+          const all_calculations_response = responses[0]
+          const initial_distances_response = responses[1]
+
+          this.handleSuccessfulResponse(all_calculations_response, initial_distances_response)
+      }))
+      .catch(error => this.handleError(error))
+
+    }
+
+    retrieveDistances(func, units){
+        func()
+        .then(response => {
+            this.setState({
+                textArray : ["Distance in", units, "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"],
+                distanceData : response.data,
+            })
         })
     }
 
-    retrieveCalculations(){
-
-      CalculationsService.retrieveAllCalculations()
-      .then(response => this.handleSuccessfulResponse(response))
-      .catch(error => this.handleError(error))
-    }
-
-    handleSuccessfulResponse(response){
+    handleSuccessfulResponse(responseOne, responseTwo){
         this.setState({
-            planetData : response.data
+            planetData : responseOne.data,
+            distanceData : responseTwo.data
         })
     }
 
@@ -66,8 +88,9 @@ class Home extends Component{
     } */
 
     componentDidMount() {
-        this.retrieveCalculations();
-        this.interval = setInterval(() => this.retrieveCalculations(), 1000);
+        this.retrieveInitialCalculations();
+        this.interval = setInterval(() => this.retrieveInitialCalculations(), 1000);
+        
     }
 
     componentWillUnmount() {
@@ -96,9 +119,8 @@ class Home extends Component{
                 </section>
         
                 <section>
-                    <PlanetCardList text={this.state.textArray} planetData={this.state.planetData}/>
+                    <PlanetCardList text={this.state.textArray} planetData={this.state.planetData} distanceData={this.state.distanceData}/>
                 </section>
-        
             </div>
         );
     }
