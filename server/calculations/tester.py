@@ -6,6 +6,17 @@ import threading
 import math
 import json
 
+def serializeDistances(mercury_dist, venus_dist, mars_dist, jupiter_dist, saturn_dist, uranus_dist, neptune_dist):
+    return {
+        'mercury_heliocentric_distance' : mercury_dist,
+        'venus_heliocentric_distance'  : venus_dist,
+        'mars_heliocentric_distance': mars_dist,
+        'jupiter_heliocentric_distance' : jupiter_dist,
+        'saturn_heliocentric_distance': saturn_dist,
+        'uranus_heliocentric_distance' : uranus_dist,
+        'neptune_heliocentric_distance' :  neptune_dist,
+    }
+
 class PlanetResponse:
     def __init__(self, planet_name, helio_distance, helio_x_coor, helio_y_coor, helio_z_coor, geo_distance, geo_x_coor, geo_y_coor, geo_z_coor):
         self.planet_name = planet_name
@@ -31,8 +42,7 @@ class PlanetResponse:
             'geocentric_z_coordinate' : self.geo_z_coor
         }
 
-
-def serialize(obj):
+def serializeObj(obj):
     if isinstance(obj, PlanetResponse):
         return {
             'planet_name' : obj.planet_name,
@@ -48,22 +58,22 @@ def serialize(obj):
     else:
         return TypeError('Type could not be serialized') 
 
-def jsonifyResponse(mercury, venus, mars, jupiter, saturn, uranus, neptune):
+def jsonifyDataResponse(mercury, venus, mars, jupiter, saturn, uranus, neptune):
     response = [mercury, venus, mars, jupiter, saturn, uranus, neptune]
     return jsonify(res = [planet.serialize() for planet in response])
 
-def jsonResponse(mercury, venus, mars, jupiter, saturn, uranus, neptune):
+def jsonDataResponse(mercury, venus, mars, jupiter, saturn, uranus, neptune):
     response = {
-        '1' : mercury,
-        '2' : venus,
-        '3' : mars,
-        '4' : jupiter,
-        '5' : saturn,
-        '6' : uranus,
-        '7' : neptune 
+        'mercury' : mercury,
+        'venus' : venus,
+        'mars' : mars,
+        'jupiter' : jupiter,
+        'saturn' : saturn,
+        'uranus' : uranus,
+        'neptune' : neptune 
     }
 
-    return json.dumps(response, default=serialize)
+    return json.dumps(response, default=serializeObj)
 
 
 def rev(angle):
@@ -230,32 +240,98 @@ def calc():
     # calculate geocentric coordinates for Neptune
     neptune_geocentric = calculateGeocentric(sun_values[0], sun_values[1], neptune_values[0], neptune_values[1], neptune_values[2])
 
+    # all_data
+    
     # mercury
-    mercury_data = PlanetResponse('mercury', round(mercury_values[3]), round(mercury_values[0], 6), round(mercury_values[1], 6), round(mercury_values[2], 6),
+    mercury_data = PlanetResponse('Mercury', round(mercury_values[3]), round(mercury_values[0], 6), round(mercury_values[1], 6), round(mercury_values[2], 6),
                                 mercury_geocentric[0], mercury_geocentric[1], mercury_geocentric[2], mercury_geocentric[3])
 
     # venus 
-    venus_data = PlanetResponse('mercury', round(venus_values[3]), round(venus_values[0], 6), round(venus_values[1], 6), round(venus_values[2], 6),
+    venus_data = PlanetResponse('Venus', round(venus_values[3]), round(venus_values[0], 6), round(venus_values[1], 6), round(venus_values[2], 6),
                                 venus_geocentric[0], venus_geocentric[1], venus_geocentric[2], venus_geocentric[3])
 
     # mars
-    mars_data = PlanetResponse('mars', round(mars_values[3]), round(mars_values[0], 6), round(mars_values[1], 6), round(mars_values[2], 6),
+    mars_data = PlanetResponse('Mars', round(mars_values[3]), round(mars_values[0], 6), round(mars_values[1], 6), round(mars_values[2], 6),
                                 mars_geocentric[0], mars_geocentric[1], mars_geocentric[2], mars_geocentric[3])
     
     # jupiter
-    jupiter_data = PlanetResponse('jupiter', round(correctedJupiter[0]), round(jupiter_values[0], 6), round(jupiter_values[1], 6), round(jupiter_values[2], 6),
+    jupiter_data = PlanetResponse('Jupiter', round(correctedJupiter[0]), round(jupiter_values[0], 6), round(jupiter_values[1], 6), round(jupiter_values[2], 6),
                                 jupiter_geocentric[0], jupiter_geocentric[1], jupiter_geocentric[2], jupiter_geocentric[3])
 
     # saturn
-    saturn_data = PlanetResponse('saturn', round(correctedSaturn[0]), round(saturn_values[0], 6), round(saturn_values[1], 6), round(saturn_values[2], 6),
+    saturn_data = PlanetResponse('Saturn', round(correctedSaturn[0]), round(saturn_values[0], 6), round(saturn_values[1], 6), round(saturn_values[2], 6),
                                 saturn_geocentric[0], saturn_geocentric[1], saturn_geocentric[2], saturn_geocentric[3])
 
     # unranus
-    uranus_data = PlanetResponse('uranus', round(correctedUranus[0]), round(uranus_values[0], 6), round(uranus_values[1], 6), round(uranus_values[2], 6),
+    uranus_data = PlanetResponse('Uranus', round(correctedUranus[0]), round(uranus_values[0], 6), round(uranus_values[1], 6), round(uranus_values[2], 6),
                                 uranus_geocentric[0], uranus_geocentric[1], uranus_geocentric[2], uranus_geocentric[3])
 
     # neptune
-    neptune_data = PlanetResponse('neptune', round(neptune_values[3]), round(neptune_values[0], 6), round(neptune_values[1], 6), round(neptune_values[2], 6),
+    neptune_data = PlanetResponse('Neptune', round(neptune_values[3]), round(neptune_values[0], 6), round(neptune_values[1], 6), round(neptune_values[2], 6),
                                 neptune_geocentric[0], neptune_geocentric[1], neptune_geocentric[2], neptune_geocentric[3])
-                                
-    return jsonResponse(mercury_data, venus_data, mars_data, jupiter_data, saturn_data, uranus_data, neptune_data)
+
+    all_data = [mercury_data, venus_data, mars_data, jupiter_data, saturn_data, uranus_data, neptune_data]
+             
+    return all_data
+
+def getAllData(all_data):
+    mercury_data = all_data[0]
+    venus_data = all_data[1]
+    mars_data = all_data[2]
+    jupiter_data = all_data[3]
+    saturn_data = all_data[4]
+    uranus_data = all_data[5]
+    neptune_data = all_data[6]
+
+    return jsonDataResponse(mercury_data, venus_data, mars_data, jupiter_data, saturn_data, uranus_data, neptune_data)
+
+def getMiDistances(all_data):
+
+    mercury_data_mi = all_data[0].helio_distance
+    venus_data_mi = all_data[1].helio_distance
+    mars_data_mi = all_data[2].helio_distance
+    jupiter_data_mi = all_data[3].helio_distance
+    saturn_data_mi = all_data[4].helio_distance
+    uranus_data_mi = all_data[5].helio_distance
+    neptune_data_mi = all_data[6].helio_distance
+
+    serialized = serializeDistances(mercury_data_mi, venus_data_mi, mars_data_mi,
+                    jupiter_data_mi, saturn_data_mi, uranus_data_mi, neptune_data_mi)
+    
+    return json.dumps(serialized, indent=6)
+
+def getKmDistances(all_data):
+
+    km_multiplier = 1.60934
+    mercury_data_km = round(all_data[0].helio_distance * km_multiplier)
+    venus_data_km = round(all_data[1].helio_distance * km_multiplier)
+    mars_data_km = round(all_data[2].helio_distance * km_multiplier)
+    jupiter_data_km = round(all_data[3].helio_distance * km_multiplier)
+    saturn_data_km = round(all_data[4].helio_distance * km_multiplier)
+    uranus_data_km = round(all_data[5].helio_distance * km_multiplier)
+    neptune_data_km = round(all_data[6].helio_distance * km_multiplier)
+
+    serialized = serializeDistances(mercury_data_km, venus_data_km, mars_data_km,
+                    jupiter_data_km, saturn_data_km, uranus_data_km, neptune_data_km)
+    
+    return json.dumps(serialized, indent=6)
+
+
+def getAuDistances(all_data):
+
+    au_multiplier = 1.07578e-8
+    mercury_data_au = round(all_data[0].helio_distance * au_multiplier, 8)
+    venus_data_au = round(all_data[1].helio_distance * au_multiplier, 8)
+    mars_data_au = round(all_data[2].helio_distance * au_multiplier, 8)
+    jupiter_data_au = round(all_data[3].helio_distance * au_multiplier, 8)
+    saturn_data_au = round(all_data[4].helio_distance * au_multiplier, 8)
+    uranus_data_au = round(all_data[5].helio_distance * au_multiplier, 8)
+    neptune_data_au = round(all_data[6].helio_distance * au_multiplier, 8)
+
+    serialized = serializeDistances(mercury_data_au, venus_data_au, mars_data_au,
+                    jupiter_data_au, saturn_data_au, uranus_data_au, neptune_data_au)
+    
+    return json.dumps(serialized, indent=6)
+    
+    
+    

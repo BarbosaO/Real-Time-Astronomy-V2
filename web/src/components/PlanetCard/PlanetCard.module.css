@@ -29,3 +29,20 @@
     border-bottom: 2px solid black;
     position: absolute;
 }
+
+.PlanetCardInfo{
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.PlanetCardInfo .Distance{
+  margin-right: 10px;
+  font-size: 30px;
+}
+
+.PlanetCardInfo .Quantity{
+  float: right;
+  font-size: 25px;
+  margin-right: 10px;
+}
+
