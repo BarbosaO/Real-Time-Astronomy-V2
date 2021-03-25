@@ -6,16 +6,22 @@ import threading
 import math
 import json
 
-def serializeDistances(mercury_dist, venus_dist, mars_dist, jupiter_dist, saturn_dist, uranus_dist, neptune_dist):
-    return {
-        'mercury_heliocentric_distance' : mercury_dist,
-        'venus_heliocentric_distance'  : venus_dist,
-        'mars_heliocentric_distance': mars_dist,
-        'jupiter_heliocentric_distance' : jupiter_dist,
-        'saturn_heliocentric_distance': saturn_dist,
-        'uranus_heliocentric_distance' : uranus_dist,
-        'neptune_heliocentric_distance' :  neptune_dist,
-    }
+
+class HelioDataResponse:
+    def __init__(self, planet_name, helio_distance, helio_x_coor, helio_y_coor, helio_z_coor):
+        self.planet_name = planet_name
+        self.helio_distance = helio_distance
+        self.helio_x_coor = helio_x_coor
+        self.helio_y_coor = helio_y_coor
+        self.helio_z_coor = helio_z_coor
+
+class GeoDataResponse:
+    def __init__(self, planet_name, geo_distance, geo_x_coor, geo_y_coor, geo_z_coor):
+        self.planet_name = planet_name
+        self.geo_distance = geo_distance
+        self.geo_x_coor = geo_x_coor
+        self.geo_y_coor = geo_y_coor
+        self.geo_z_coor = geo_z_coor
 
 class PlanetResponse:
     def __init__(self, planet_name, helio_distance, helio_x_coor, helio_y_coor, helio_z_coor, geo_distance, geo_x_coor, geo_y_coor, geo_z_coor):
@@ -42,6 +48,17 @@ class PlanetResponse:
             'geocentric_z_coordinate' : self.geo_z_coor
         }
 
+def serializeDistances(mercury_dist, venus_dist, mars_dist, jupiter_dist, saturn_dist, uranus_dist, neptune_dist):
+    return {
+        'mercury_heliocentric_distance' : mercury_dist,
+        'venus_heliocentric_distance'  : venus_dist,
+        'mars_heliocentric_distance': mars_dist,
+        'jupiter_heliocentric_distance' : jupiter_dist,
+        'saturn_heliocentric_distance': saturn_dist,
+        'uranus_heliocentric_distance' : uranus_dist,
+        'neptune_heliocentric_distance' :  neptune_dist,
+    }
+
 def serializeObj(obj):
     if isinstance(obj, PlanetResponse):
         return {
@@ -54,6 +71,22 @@ def serializeObj(obj):
             'geocentric_x_coordinate' : obj.geo_x_coor,
             'geocentric_y_coordinate' : obj.geo_y_coor,
             'geocentric_z_coordinate' : obj.geo_z_coor
+        }
+    elif isinstance(obj, HelioDataResponse):
+        return {
+            'planet_name' : obj.planet_name,
+            'planet_distance' : obj.helio_distance,
+            'x_coordinate' : obj.helio_x_coor,
+            'y_coordinate' : obj.helio_y_coor,
+            'z_coordinate' : obj.helio_z_coor,
+        }
+    elif isinstance(obj, GeoDataResponse):
+        return{
+            'planet_name' : obj.planet_name,
+            'planet_distance' : obj.geo_distance,
+            'x_coordinate' : obj.geo_x_coor,
+            'y_coordinate' : obj.geo_y_coor,
+            'z_coordinate' : obj.geo_z_coor
         }
     else:
         return TypeError('Type could not be serialized') 
@@ -273,6 +306,46 @@ def calc():
     all_data = [mercury_data, venus_data, mars_data, jupiter_data, saturn_data, uranus_data, neptune_data]
              
     return all_data
+
+
+def getHelioData(all_data):
+    mercury_data = all_data[0]
+    venus_data = all_data[1]
+    mars_data = all_data[2]
+    jupiter_data = all_data[3]
+    saturn_data = all_data[4]
+    uranus_data = all_data[5]
+    neptune_data = all_data[6]
+
+    mercury_helio_data = HelioDataResponse(mercury_data.planet_name, mercury_data.helio_distance, mercury_data.helio_x_coor, mercury_data.helio_y_coor, mercury_data.helio_z_coor)
+    venus_helio_data = HelioDataResponse(venus_data.planet_name, venus_data.helio_distance, venus_data.helio_x_coor, venus_data.helio_y_coor, venus_data.helio_z_coor)
+    mars_helio_data = HelioDataResponse(mars_data.planet_name, mars_data.helio_distance, mars_data.helio_x_coor, mars_data.helio_y_coor, mars_data.helio_z_coor)
+    jupiter_helio_data = HelioDataResponse(jupiter_data.planet_name, jupiter_data.helio_distance, jupiter_data.helio_x_coor, jupiter_data.helio_y_coor, jupiter_data.helio_z_coor)
+    saturn_helio_data = HelioDataResponse(saturn_data.planet_name, saturn_data.helio_distance, saturn_data.helio_x_coor, saturn_data.helio_y_coor, saturn_data.helio_z_coor)
+    uranus_helio_data = HelioDataResponse(uranus_data.planet_name, uranus_data.helio_distance, uranus_data.helio_x_coor, uranus_data.helio_y_coor, uranus_data.helio_z_coor)
+    neptune_helio_data = HelioDataResponse(neptune_data.planet_name, neptune_data.helio_distance, neptune_data.helio_x_coor, neptune_data.helio_y_coor, neptune_data.helio_z_coor)
+
+    return jsonDataResponse(mercury_helio_data, venus_helio_data, mars_helio_data, jupiter_helio_data, saturn_helio_data, uranus_helio_data, neptune_helio_data)
+    
+def getGeoData(all_data):
+    mercury_data = all_data[0]
+    venus_data = all_data[1]
+    mars_data = all_data[2]
+    jupiter_data = all_data[3]
+    saturn_data = all_data[4]
+    uranus_data = all_data[5]
+    neptune_data = all_data[6]
+
+    mercury_geo_data = GeoDataResponse(mercury_data.planet_name, mercury_data.geo_distance, mercury_data.geo_x_coor, mercury_data.geo_y_coor, mercury_data.geo_z_coor)
+    venus_geo_data = GeoDataResponse(venus_data.planet_name, venus_data.geo_distance, venus_data.geo_x_coor, venus_data.geo_y_coor, venus_data.geo_z_coor)
+    mars_geo_data = GeoDataResponse(mars_data.planet_name, mars_data.geo_distance, mars_data.geo_x_coor, mars_data.geo_y_coor, mars_data.geo_z_coor)
+    jupiter_geo_data = GeoDataResponse(jupiter_data.planet_name, jupiter_data.geo_distance, jupiter_data.geo_x_coor, jupiter_data.geo_y_coor, jupiter_data.geo_z_coor)
+    saturn_geo_data = GeoDataResponse(saturn_data.planet_name, saturn_data.geo_distance, saturn_data.geo_x_coor, saturn_data.geo_y_coor, saturn_data.geo_z_coor)
+    uranus_geo_data = GeoDataResponse(uranus_data.planet_name, uranus_data.geo_distance, uranus_data.geo_x_coor, uranus_data.geo_y_coor, uranus_data.geo_z_coor)
+    neptune_geo_data = GeoDataResponse(neptune_data.planet_name, neptune_data.geo_distance, neptune_data.geo_x_coor, neptune_data.geo_y_coor, neptune_data.geo_z_coor)
+
+    return jsonDataResponse(mercury_geo_data, venus_geo_data, mars_geo_data, jupiter_geo_data, saturn_geo_data, uranus_geo_data, neptune_geo_data)
+
 
 def getAllData(all_data):
     mercury_data = all_data[0]

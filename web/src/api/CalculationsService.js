@@ -6,6 +6,14 @@ class CalculationsService {
         return axios.get('http://127.0.0.1:5000/api/calculations/all');
     }
 
+    retrieveHelioData(){
+        return axios.get('http://127.0.0.1:5000/api/calculations/heliocentric')
+    }
+
+    retrieveGeoData(){
+        return axios.get('http://127.0.0.1:5000/api/calculations/geocentric')
+    }
+
     retrieveMiDistances(){
         return axios.get('http://127.0.0.1:5000/api/calculations/distances/mi');
     }

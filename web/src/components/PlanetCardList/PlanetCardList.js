@@ -4,6 +4,7 @@ import PlanetCard from '../PlanetCard/PlanetCard';
 
 const PlanetCardList = (props) => {
     return(
+        
         <div className={classes.PlanetCardList}>
             <PlanetCard data = {props} planetData={props.planetData.mercury} distanceData={props.distanceData.mercury_heliocentric_distance}/>
             <PlanetCard data = {props} planetData={props.planetData.venus} distanceData={props.distanceData.venus_heliocentric_distance}/>

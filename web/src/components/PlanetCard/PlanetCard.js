@@ -13,9 +13,9 @@ const PlanetCard = (props) => (
         {props.planetData && <div className={classes.Header}>{props.planetData.planet_name}</div>}
         <div className={classes.HeaderLine}></div>
         {props.planetData && <PlanetCardInfo text={props.data.text[0] + " " + props.data.text[1]} planetData={formatDistance(props.distanceData)}/>}
-        {props.planetData && <PlanetCardInfo text={props.data.text[2]} planetData={props.planetData.heliocentric_x_coordinate}/>}
-        {props.planetData && <PlanetCardInfo text={props.data.text[3]} planetData={props.planetData.heliocentric_y_coordinate}/>}
-        {props.planetData && <PlanetCardInfo text={props.data.text[4]} planetData={props.planetData.heliocentric_z_coordinate}/>}
+        {props.planetData && <PlanetCardInfo text={props.data.text[2]} planetData={props.planetData.x_coordinate}/>}
+        {props.planetData && <PlanetCardInfo text={props.data.text[3]} planetData={props.planetData.y_coordinate}/>}
+        {props.planetData && <PlanetCardInfo text={props.data.text[4]} planetData={props.planetData.z_coordinate}/>}
     </div>
    
 );
