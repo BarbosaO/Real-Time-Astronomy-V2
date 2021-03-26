@@ -14,16 +14,31 @@ class CalculationsService {
         return axios.get('http://127.0.0.1:5000/api/calculations/geocentric')
     }
 
-    retrieveMiDistances(){
-        return axios.get('http://127.0.0.1:5000/api/calculations/distances/mi');
+    retrieveMiDistances(distance_type){
+
+        if(distance_type === 'helio'){
+            return axios.get('http://127.0.0.1:5000/api/calculations/heliocentric/distances/mi');
+        }
+        
+        return axios.get('http://127.0.0.1:5000/api/calculations/geocentric/distances/mi');
     }
 
-    retrieveKmDistances(){
-        return axios.get('http://127.0.0.1:5000/api/calculations/distances/km');
+    retrieveKmDistances(distance_type){
+
+        if(distance_type === 'helio'){
+            return axios.get('http://127.0.0.1:5000/api/calculations/heliocentric/distances/km');
+        }
+        
+        return axios.get('http://127.0.0.1:5000/api/calculations/geocentric/distances/km');
     }
     
-    retrieveAuDistances(){
-        return axios.get('http://127.0.0.1:5000/api/calculations/distances/au');
+    retrieveAuDistances(distance_type){
+
+        if(distance_type === 'helio'){
+            return axios.get('http://127.0.0.1:5000/api/calculations/heliocentric/distances/au');
+        }
+        
+        return axios.get('http://127.0.0.1:5000/api/calculations/geocentric/distances/au');
     }
 
 }

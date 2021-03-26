@@ -50,13 +50,13 @@ class PlanetResponse:
 
 def serializeDistances(mercury_dist, venus_dist, mars_dist, jupiter_dist, saturn_dist, uranus_dist, neptune_dist):
     return {
-        'mercury_heliocentric_distance' : mercury_dist,
-        'venus_heliocentric_distance'  : venus_dist,
-        'mars_heliocentric_distance': mars_dist,
-        'jupiter_heliocentric_distance' : jupiter_dist,
-        'saturn_heliocentric_distance': saturn_dist,
-        'uranus_heliocentric_distance' : uranus_dist,
-        'neptune_heliocentric_distance' :  neptune_dist,
+        'mercury_distance' : mercury_dist,
+        'venus_distance'  : venus_dist,
+        'mars_distance': mars_dist,
+        'jupiter_distance' : jupiter_dist,
+        'saturn_distance': saturn_dist,
+        'uranus_distance' : uranus_dist,
+        'neptune_distance' :  neptune_dist,
     }
 
 def serializeObj(obj):
@@ -358,7 +358,7 @@ def getAllData(all_data):
 
     return jsonDataResponse(mercury_data, venus_data, mars_data, jupiter_data, saturn_data, uranus_data, neptune_data)
 
-def getMiDistances(all_data):
+def getMiHelioDistances(all_data):
 
     mercury_data_mi = all_data[0].helio_distance
     venus_data_mi = all_data[1].helio_distance
@@ -373,7 +373,7 @@ def getMiDistances(all_data):
     
     return json.dumps(serialized, indent=6)
 
-def getKmDistances(all_data):
+def getKmHelioDistances(all_data):
 
     km_multiplier = 1.60934
     mercury_data_km = round(all_data[0].helio_distance * km_multiplier)
@@ -390,7 +390,7 @@ def getKmDistances(all_data):
     return json.dumps(serialized, indent=6)
 
 
-def getAuDistances(all_data):
+def getAuHelioDistances(all_data):
 
     au_multiplier = 1.07578e-8
     mercury_data_au = round(all_data[0].helio_distance * au_multiplier, 8)
@@ -400,6 +400,54 @@ def getAuDistances(all_data):
     saturn_data_au = round(all_data[4].helio_distance * au_multiplier, 8)
     uranus_data_au = round(all_data[5].helio_distance * au_multiplier, 8)
     neptune_data_au = round(all_data[6].helio_distance * au_multiplier, 8)
+
+    serialized = serializeDistances(mercury_data_au, venus_data_au, mars_data_au,
+                    jupiter_data_au, saturn_data_au, uranus_data_au, neptune_data_au)
+    
+    return json.dumps(serialized, indent=6)
+
+def getMiGeoDistances(all_data):
+
+    mercury_data_mi = all_data[0].geo_distance
+    venus_data_mi = all_data[1].geo_distance
+    mars_data_mi = all_data[2].geo_distance
+    jupiter_data_mi = all_data[3].geo_distance
+    saturn_data_mi = all_data[4].geo_distance
+    uranus_data_mi = all_data[5].geo_distance
+    neptune_data_mi = all_data[6].geo_distance
+
+    serialized = serializeDistances(mercury_data_mi, venus_data_mi, mars_data_mi,
+                    jupiter_data_mi, saturn_data_mi, uranus_data_mi, neptune_data_mi)
+    
+    return json.dumps(serialized, indent=6)
+
+def getKmGeoDistances(all_data):
+
+    km_multiplier = 1.60934
+    mercury_data_km = round(all_data[0].geo_distance * km_multiplier)
+    venus_data_km = round(all_data[1].geo_distance * km_multiplier)
+    mars_data_km = round(all_data[2].geo_distance * km_multiplier)
+    jupiter_data_km = round(all_data[3].geo_distance * km_multiplier)
+    saturn_data_km = round(all_data[4].geo_distance * km_multiplier)
+    uranus_data_km = round(all_data[5].geo_distance * km_multiplier)
+    neptune_data_km = round(all_data[6].geo_distance * km_multiplier)
+
+    serialized = serializeDistances(mercury_data_km, venus_data_km, mars_data_km,
+                    jupiter_data_km, saturn_data_km, uranus_data_km, neptune_data_km)
+    
+    return json.dumps(serialized, indent=6)
+
+
+def getAuGeoDistances(all_data):
+
+    au_multiplier = 1.07578e-8
+    mercury_data_au = round(all_data[0].geo_distance * au_multiplier, 8)
+    venus_data_au = round(all_data[1].geo_distance * au_multiplier, 8)
+    mars_data_au = round(all_data[2].geo_distance * au_multiplier, 8)
+    jupiter_data_au = round(all_data[3].geo_distance * au_multiplier, 8)
+    saturn_data_au = round(all_data[4].geo_distance * au_multiplier, 8)
+    uranus_data_au = round(all_data[5].geo_distance * au_multiplier, 8)
+    neptune_data_au = round(all_data[6].geo_distance * au_multiplier, 8)
 
     serialized = serializeDistances(mercury_data_au, venus_data_au, mars_data_au,
                     jupiter_data_au, saturn_data_au, uranus_data_au, neptune_data_au)

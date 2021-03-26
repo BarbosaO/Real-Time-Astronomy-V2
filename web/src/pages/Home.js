@@ -13,6 +13,8 @@ class Home extends Component{
         textArray : ["Distance in", "MI", "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"],
         planetData : '',
         distanceData : '',
+        distance_type : '',
+        units : ''
     }
 
     switchToHelioHandler = () => {
@@ -26,35 +28,57 @@ class Home extends Component{
     }
 
     switchToGeoHandler = () => {
-        CalculationsService.retrieveGeoData()
-        .then(response => {
-            this.setState({
-                planetData : response.data
-            })
-        })
-        .catch(error => this.handleError(error))
+        this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieve)
     }
 
     switchToKmHandler = () =>{
 
-        this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveKmDistances(), "KM");
-        clearInterval(this.interval);
-        this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveKmDistances(), "KM"), 1000);
+        if(this.state.distance_type === 'helio'){
+            this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveKmDistances('helio'), "KM", 'helio');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveHelioData(), 
+                                            CalculationsService.retrieveKmDistances('helio'), "KM", 'helio'), 1000);
+        }
+        else{
+            this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieveKmDistances('geo'), "KM", 'geo');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveGeoData(), 
+                                            CalculationsService.retrieveKmDistances('geo'), "KM", 'geo'), 1000);
+        }
     }
 
     switchToMIHandler = () =>{
-        this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveMiDistances(), "MI");
-        clearInterval(this.interval);
-        this.interval = setInterval(() =>  this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveMiDistances(), "MI"), 1000);
+        if(this.state.distance_type === 'helio'){
+            this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveMiDistances('helio'), "MI", 'helio');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveHelioData(), 
+                                            CalculationsService.retrieveMiDistances('helio'), "MI", 'helio'), 1000);
+        }
+        else{
+            this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieveMiDistances('geo'), "MI", 'geo');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveGeoData(), 
+                                            CalculationsService.retrieveMiDistances('geo'), "MI", 'geo'), 1000);
+        }
     }
 
     switchToAUHandler = () =>{
-        this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveAuDistances(), "AU");
-        clearInterval(this.interval);
-        this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveAuDistances(), "AU"), 1000);
+        if(this.state.distance_type === 'helio'){
+            this.retrieveCalculations(CalculationsService.retrieveHelioData(), CalculationsService.retrieveAuDistances('helio'), "AU", 'helio');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveHelioData(), 
+                                            CalculationsService.retrieveAuDistances('helio'), "AU", 'helio'), 1000);
+        }
+        else{
+            this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieveAuDistances('geo'), "AU", 'geo');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveGeoData(), 
+                                            CalculationsService.retrieveAuDistances('geo'), "AU", 'geo'), 1000);
+        }
     }
 
-    retrieveCalculations(requestOne, requestTwo, units){
+
+    retrieveCalculations(requestOne, requestTwo, units, distance_type){
         
         const calculations_request = requestOne
         const distances_request = requestTwo
@@ -67,7 +91,9 @@ class Home extends Component{
           this.setState({
             textArray : ["Distance in", units, "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"],
             planetData : calculations_response.data,
-            distanceData : distances_response.data
+            distanceData : distances_response.data,
+            distance_type : distance_type,
+            units : units
         })
       }))
     }
@@ -75,7 +101,7 @@ class Home extends Component{
     retrieveInitialCalculations(){
 
       const helio_calculations_request = CalculationsService.retrieveHelioData();
-      const initial_distances_request = CalculationsService.retrieveMiDistances();
+      const initial_distances_request = CalculationsService.retrieveMiDistances('helio');
 
       axios.all([helio_calculations_request, initial_distances_request])
       .then(axios.spread((...responses) => {
@@ -87,20 +113,12 @@ class Home extends Component{
       .catch(error => this.handleError(error))
     }
 
-    retrieveDistances(func, units){
-        func()
-        .then(response => {
-            this.setState({
-                textArray : ["Distance in", units, "x-coordinate (Hx)", "y-coordinate (Hy)", "z-coordinate (Hz)"],
-                distanceData : response.data,
-            })
-        })
-    }
-
     handleSuccessfulResponse(helio_calculations_res, initial_distances_res){
         this.setState({
             planetData : helio_calculations_res.data,
-            distanceData : initial_distances_res.data
+            distanceData : initial_distances_res.data,
+            distance_type : 'helio',
+            units : 'MI'
         })
     }
 
