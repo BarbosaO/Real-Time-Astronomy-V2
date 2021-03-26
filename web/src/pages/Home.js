@@ -15,7 +15,7 @@ class Home extends Component{
         distanceData : '',
         distance_type : '',
         units : ''
-    }
+}
 
     switchToHelioHandler = () => {
         CalculationsService.retrieveHelioData()
@@ -28,7 +28,24 @@ class Home extends Component{
     }
 
     switchToGeoHandler = () => {
-        this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieve)
+        if(this.state.units === 'MI'){
+            this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieveMiDistances('geo'), "MI", 'geo');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveGeoData(), 
+                                            CalculationsService.retrieveMiDistances('geo'), "KM", 'geo'), 1000);
+        }
+        else if(this.state.units == 'KM'){
+            this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieveKmDistances('geo'), "KM", 'geo');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveGeoData(), 
+                                            CalculationsService.retrieveKmDistances('geo'), "KM", 'geo'), 1000);
+        }
+        else{
+            this.retrieveCalculations(CalculationsService.retrieveGeoData(), CalculationsService.retrieveAuDistances('geo'), "AU", 'geo');
+            clearInterval(this.interval);
+            this.interval = setInterval(() => this.retrieveCalculations(CalculationsService.retrieveGeoData(), 
+                                            CalculationsService.retrieveAuDistances('geo'), "AU", 'geo'), 1000);
+        }
     }
 
     switchToKmHandler = () =>{
